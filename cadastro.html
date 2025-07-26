@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ficha de Cadastro - Wolf Crédito</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter font from Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #e2e8f0; /* Light blue-gray background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            background-color: #ffffff;
+            /* Removido padding fixo aqui para usar classes responsivas do Tailwind no HTML */
+            border-radius: 16px; /* More rounded corners */
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15); /* Stronger, softer shadow */
+            max-width: 550px; /* Slightly wider container */
+            width: 100%;
+            border: 1px solid #cbd5e1; /* Subtle border */
+        }
+        h1 {
+            color: #1a202c; /* Darker heading color */
+            font-size: 2.5rem; /* Larger font size for main title */
+            font-weight: 800; /* Extra bold for main title */
+            margin-bottom: 30px; /* More space below heading */
+            letter-spacing: -0.025em; /* Slightly tighter letter spacing */
+        }
+        .form-group label {
+            font-weight: 600; /* Bolder labels */
+            color: #2d3748; /* Darker text */
+            margin-bottom: 10px; /* More space below labels */
+            display: block;
+            font-size: 0.95rem;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="tel"],
+        .form-group select {
+            width: 100%;
+            padding: 14px; /* Increased padding */
+            border: 1px solid #a0aec0; /* Slightly darker border */
+            border-radius: 10px; /* More rounded */
+            font-size: 17px; /* Slightly larger font */
+            color: #2d3748;
+            transition: all 0.3s ease-in-out; /* Smoother transition */
+            background-color: #f8fafc; /* Off-white input background */
+        }
+        .form-group input[type="text"]:focus,
+        .form-group input[type="tel"]:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #4299e1; /* Brighter blue focus */
+            box-shadow: 0 0 0 4px rgba(66, 153, 225, 0.3); /* More prominent focus shadow */
+            background-color: #ffffff;
+        }
+        /* Custom Radio Button Styling */
+        .radio-option {
+            display: block;
+            position: relative;
+            padding: 15px 20px;
+            border: 2px solid #cbd5e1;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            background-color: #f8fafc;
+            text-align: center;
+        }
+        .radio-option:hover {
+            border-color: #a0aec0;
+            background-color: #edf2f7;
+        }
+        .radio-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+        .radio-option .checkmark {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #a0aec0;
+            background-color: #ffffff;
+            transition: all 0.3s ease-in-out;
+        }
+        .radio-option input[type="radio"]:checked + .checkmark {
+            background-color: #4299e1; /* Blue-500 */
+            border-color: #4299e1;
+            box-shadow: 0 0 0 4px rgba(66, 153, 225, 0.3);
+        }
+        .radio-option input[type="radio"]:checked + .checkmark:after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: white;
+        }
+        .radio-option span {
+            font-weight: 500;
+            color: #2d3748;
+            font-size: 1rem;
+            vertical-align: middle;
+        }
+        .radio-option input[type="radio"]:checked + .checkmark + span {
+            color: #4299e1; /* Blue-500 */
+            font-weight: 600;
+        }
+
+        .radio-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Responsive grid */
+            gap: 15px; /* Space between cards */
+        }
+
+        .btn-primary {
+            background-color: #10b981; /* Emerald Green */
+            color: white;
+            padding: 14px 25px;
+            border-radius: 10px;
+            font-weight: 700; /* Bolder */
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out, transform 0.15s ease-in-out, box-shadow 0.3s ease-in-out;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3); /* Stronger shadow */
+            background-image: linear-gradient(to right, #10b981, #059669); /* Subtle gradient */
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #059669; /* Darker green on hover */
+            transform: translateY(-2px); /* More pronounced lift */
+            box-shadow: 0 12px 25px rgba(16, 185, 129, 0.4);
+            background-image: linear-gradient(to right, #059669, #047857);
+        }
+        .btn-primary:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2);
+        }
+        .whatsapp-button {
+            background-color: #25D366; /* WhatsApp Green */
+            color: white;
+            padding: 14px 25px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out, transform 0.15s ease-in-out, box-shadow 0.3s ease-in-out;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px; /* More space for icon */
+            background-image: linear-gradient(to right, #25D366, #1DA851);
+            border: none;
+        }
+        .whatsapp-button:hover {
+            background-color: #1DA851;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(37, 211, 102, 0.4);
+            background-image: linear-gradient(to right, #1DA851, #179347);
+        }
+        .whatsapp-button:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 10px rgba(37, 211, 102, 0.2);
+        }
+        .whatsapp-icon {
+            width: 22px; /* Slightly larger icon */
+            height: 22px;
+        }
+        .next-step-button {
+            background-color: #4299e1; /* Brighter blue */
+            color: white;
+            padding: 14px 25px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out, transform 0.15s ease-in-out, box-shadow 0.3s ease-in-out;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(66, 153, 225, 0.3);
+            margin-top: 25px; /* More space above button */
+            background-image: linear-gradient(to right, #4299e1, #3182ce);
+            border: none;
+        }
+        .next-step-button:hover {
+            background-color: #3182ce;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(66, 153, 225, 0.4);
+            background-image: linear-gradient(to right, #3182ce, #2b6cb0);
+        }
+        .next-step-button:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 10px rgba(66, 153, 225, 0.2);
+        }
+        /* Message Box Styles */
+        .message-box {
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+        .message-box h2 {
+            font-size: 2rem; /* Larger font size for section titles */
+            font-weight: 700; /* Bolder */
+            margin-bottom: 20px;
+            color: #2d3748;
+            letter-spacing: -0.02em; /* Slightly tighter letter spacing */
+        }
+        .message-box p {
+            margin-bottom: 15px;
+            color: #4a5568;
+        }
+        .message-box ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        .message-box ul li {
+            margin-bottom: 8px;
+        }
+
+        /* Specific message box colors */
+        #analysisMessage {
+            background-color: #ebf8ff; /* Light blue */
+            color: #2b6cb0; /* Darker blue text */
+            border: 1px solid #90cdf4;
+        }
+        #clarificationMessage {
+            background-color: #fffbeb; /* Light yellow */
+            color: #b7791f; /* Darker yellow text */
+            border: 1px solid #fbd38d;
+        }
+        #howItWorksMessage {
+            background-color: #f3e8ff; /* Light purple */
+            color: #6b46c1; /* Darker purple text */
+            border: 1px solid #d6bcfa;
+        }
+        #finalizationMessage {
+            background-color: #f0fff4; /* Light green */
+            color: #2f855a; /* Darker green text */
+            border: 1px solid #9ae6b4;
+        }
+        #finalizationMessage .font-bold {
+            color: #10b981; /* Emerald green for the R$20,00 */
+        }
+        #finalizationMessage .text-sm {
+            color: #4a5568; /* Slightly muted text for explanation */
+        }
+    </style>
+</head>
+<body>
+    <div class="container p-6 sm:p-8 md:p-10 lg:p-12">
+        <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">Ficha de Cadastro - Wolf Crédito</h1>
+
+        <!-- How It Works Message (First Screen) -->
+        <div id="howItWorksMessage" class="message-box hidden">
+            <h2 class="text-xl font-semibold mb-3">Como Funciona Nosso Empréstimo</h2>
+            <p class="text-left mb-4">Rápido, fácil e sem burocracia:</p>
+            <ul class="text-left list-disc list-inside space-y-2 text-sm">
+                <li>Você preenche uma ficha simples, com seus dados e sua renda. Esse passo é rápido e serve pra entender seu perfil.</li>
+                <li>Após isso, sua ficha é enviada para análise de mais de 30 juristas/investidores confiáveis que fazem parte do nosso grupo exclusivo.</li>
+                <li>O jurista que tiver interesse na sua ficha entra em contato diretamente com você, dentro do grupo ou no privado. Você escolhe com quem quer negociar.</li>
+                <li>Todas as informações de juros, prazos e valores são combinadas diretamente com o jurista que selecionar sua ficha. Nós apenas organizamos tudo para facilitar esse processo.</li>
+                <li>O atendimento é rápido, direto e sem enrolação. Nada de papelada ou burocracia como nos bancos tradicionais.</li>
+            </ul>
+            <p class="text-center mt-4 font-semibold text-purple-900">Aqui você trata direto com quem empresta, com agilidade, segurança e total transparência.</p>
+            <button id="startRegistrationButton" class="next-step-button">Começar meu Cadastro</button>
+        </div>
+
+        <!-- Initial Form -->
+        <form id="registrationForm" class="space-y-5 hidden">
+            <div class="form-group">
+                <label for="fullName">Nome completo:</label>
+                <input type="text" id="fullName" name="fullName" placeholder="Seu nome completo" required class="rounded-lg">
+            </div>
+
+            <div class="form-group">
+                <label for="whatsapp">WhatsApp com DDD:</label>
+                <input type="tel" id="whatsapp" name="whatsapp" placeholder="(XX) XXXXX-XXXX" required class="rounded-lg">
+            </div>
+
+            <div class="form-group">
+                <label for="cityState">Cidade/Estado:</label>
+                <input type="text" id="cityState" name="cityState" placeholder="Ex: São Paulo/SP" required class="rounded-lg">
+            </div>
+
+            <div class="form-group">
+                <label for="profession">Profissão:</label>
+                <input type="text" id="profession" name="profession" placeholder="Sua profissão" required class="rounded-lg">
+            </div>
+
+            <div class="form-group">
+                <label class="mb-2">Renda mensal:</label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="monthlyIncome" value="Até R$1.000" required>
+                        <span class="checkmark"></span>
+                        <span>Até R$1.000</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="monthlyIncome" value="R$1.001 a R$2.000">
+                        <span class="checkmark"></span>
+                        <span>R$1.001 a R$2.000</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="monthlyIncome" value="R$2.001 a R$3.500">
+                        <span class="checkmark"></span>
+                        <span>R$2.001 a R$3.500</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="monthlyIncome" value="Acima de R$3.500">
+                        <span class="checkmark"></span>
+                        <span>Acima de R$3.500</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="mb-2">Comprova renda?</label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="proofOfIncome" value="Sim" required>
+                        <span class="checkmark"></span>
+                        <span>Sim</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="proofOfIncome" value="Não">
+                        <span class="checkmark"></span>
+                        <span>Não</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="loanAmount">Valor que deseja emprestado:</label>
+                <div class="relative">
+                    <input type="text" id="loanAmount" name="loanAmount" placeholder="R$ 0,00" required class="pl-4 rounded-lg" autocomplete="off">
+                </div>
+            </div>
+
+            <button type="submit" class="btn-primary">Enviar Cadastro</button>
+        </form>
+
+        <!-- Analysis State Message -->
+        <div id="analysisMessage" class="message-box hidden">
+            <h2 class="text-xl font-semibold mb-3">Cadastro em Análise</h2>
+            <p>Seu processo de cadastro para entrada na Wolf Crédito está em análise.</p>
+            <p class="mt-2">Por favor, aguarde aproximadamente 2 horas para a próxima etapa.</p>
+            <p class="mt-4 text-sm text-blue-600">Você será notificado nesta página quando a análise for concluída e puder prosseguir para tirar dúvidas.</p>
+        </div>
+
+        <!-- Clarification State Message (Tira Dúvidas) -->
+        <div id="clarificationMessage" class="message-box hidden">
+            <h2 class="text-xl font-semibold mb-3">Dúvidas sobre o Processo?</h2>
+            <p>Sua análise foi concluída! Antes de prosseguir, se tiver alguma dúvida sobre o processo, clique no botão abaixo para falar conosco no WhatsApp.</p>
+            <p class="mt-4">Caso não tenha dúvidas, clique em "Continuar" para saber como funciona nosso empréstimo.</p>
+            <a id="clarificationWhatsappButton" href="#" target="_blank" class="whatsapp-button mt-6 inline-flex items-center justify-center">
+                <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12.04 2C7.34 2 3.58 5.76 3.58 10.46C3.58 12.08 4.01 13.59 4.74 14.9L3.06 20.04L8.33 18.33C9.57 19.0 10.88 19.36 12.04 19.36C16.74 19.36 20.5 15.6 20.5 10.9C20.5 6.2 16.74 2 12.04 2ZM16.6 14.56C16.35 15.02 15.29 15.6 15.03 15.69C14.77 15.79 14.53 15.82 14.28 15.74C13.98 15.65 13.06 15.34 12.09 14.45C11.12 13.56 10.44 12.5 10.22 12.18C10.0 11.86 10.16 11.72 10.32 11.56C10.44 11.44 10.58 11.23 10.7 11.08C10.83 10.93 10.91 10.82 11.03 10.57C11.15 10.32 11.21 10.2 11.3 10.0C11.39 9.8 11.34 9.72 11.29 9.61C11.24 9.5 10.74 8.27 10.53 7.76C10.32 7.25 10.11 7.33 9.95 7.33C9.79 7.33 9.62 7.33 9.46 7.33C9.3 7.33 9.07 > 7.33 8.84 7.33C8.61 > 7.33 8.28 7.42 7.95 7.75C7.62 8.08 6.9 8.76 6.9 10.0C6.9 11.24 7.82 12.42 7.95 12.59C8.08 12.76 9.63 15.15 11.98 16.14C12.55 16.38 13.02 16.53 13.38 16.65C13.85 16.8 14.33 16.77 14.69 16.7C15.05 16.63 15.93 16.11 16.18 15.65C16.43 15.19 16.43 14.78 16.35 14.65C16.27 14.52 16.6 14.09 16.6 14.56Z"/>
+                </svg>
+                Tirar Dúvidas no WhatsApp
+            </a>
+            <button id="continueToFinalizationButtonFromClarification" class="next-step-button">Continuar</button>
+        </div>
+
+        <!-- Finalization State Message -->
+        <div id="finalizationMessage" class="message-box hidden">
+            <h2 class="text-xl font-semibold mb-3">Análise Concluída!</h2>
+            <p>Parabéns! Seu cadastro foi analisado e está pronto para finalização.</p>
+            <p class="mt-2 font-bold">Para finalizar, há uma taxa de R$20,00.</p>
+            <p class="text-sm mt-1 text-green-700">Esta taxa é cobrada para filtrar caloteiros e garantir que apenas pessoas realmente interessadas e sérias prossigam com o processo, mantendo a qualidade do nosso serviço.</p>
+            <p class="mt-4">Clique no botão abaixo para entrar em contato conosco via WhatsApp e concluir o processo.</p>
+            <a id="finalizationWhatsappButton" href="#" target="_blank" class="whatsapp-button mt-6 inline-flex items-center justify-content-center">
+                <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12.04 2C7.34 2 3.58 5.76 3.58 10.46C3.58 12.08 4.01 13.59 4.74 14.9L3.06 20.04L8.33 18.33C9.57 19.0 10.88 19.36 12.04 19.36C16.74 19.36 20.5 15.6 20.5 10.9C20.5 6.2 16.74 2 12.04 2ZM16.6 14.56C16.35 15.02 15.29 15.6 15.03 15.69C14.77 15.79 14.53 15.82 14.28 15.74C13.98 15.65 13.06 15.34 12.09 14.45C11.12 13.56 10.44 12.5 10.22 12.18C10.0 11.86 10.16 11.72 10.32 11.56C10.44 11.44 10.58 11.23 10.7 11.08C10.83 10.93 10.91 10.82 11.03 10.57C11.15 10.32 11.21 10.2 11.3 10.0C11.39 9.8 11.34 9.72 11.29 9.61C11.24 9.5 10.74 8.27 10.53 7.76C10.32 7.25 10.11 7.33 9.95 7.33C9.79 7.33 9.62 7.33 9.46 7.33C9.3 7.33 9.07 > 7.33 8.84 7.33C8.61 > 7.33 8.28 7.42 7.95 7.75C7.62 8.08 6.9 8.76 6.9 10.0C6.9 11.24 7.82 12.42 7.95 12.59C8.08 12.76 9.63 15.15 11.98 16.14C12.55 16.38 13.02 16.53 13.38 16.65C13.85 16.8 14.33 16.77 14.69 16.7C15.05 16.63 15.93 16.11 16.18 15.65C16.43 15.19 16.43 14.78 16.35 14.65C16.27 14.52 16.6 14.09 16.6 14.56Z"/>
+                </svg>
+                Finalizar Cadastro no WhatsApp
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Define o número de telefone da Wolf Crédito para envio dos dados e finalização
+        // Substitua '5511943654527' pelo número real da Wolf Crédito (formato: código do país + DDD + número)
+        const WOLF_CREDITO_PHONE_NUMBER = '11943654527'; // Número de WhatsApp atualizado
+
+        // Tempo de análise em milissegundos (2 horas = 2 * 60 * 60 * 1000 ms)
+        const ANALYSIS_DURATION_MS = 2 * 60 * 60 * 1000; // Tempo de análise definido para 2 horas
+
+        const registrationForm = document.getElementById('registrationForm');
+        const analysisMessage = document.getElementById('analysisMessage');
+        const howItWorksMessage = document.getElementById('howItWorksMessage'); // Elemento "Como Funciona"
+        const clarificationMessage = document.getElementById('clarificationMessage'); // Elemento de Tira Dúvidas
+        const finalizationMessage = document.getElementById('finalizationMessage');
+
+        const startRegistrationButton = document.getElementById('startRegistrationButton'); // Novo botão para iniciar o cadastro
+        const clarificationWhatsappButton = document.getElementById('clarificationWhatsappButton'); // Botão de WhatsApp para Tira Dúvidas
+        const continueToFinalizationButtonFromClarification = document.getElementById('continueToFinalizationButtonFromClarification'); // Botão "Continuar" da tela de tira dúvidas
+        const finalizationWhatsappButton = document.getElementById('finalizationWhatsappButton');
+
+        const whatsappInput = document.getElementById('whatsapp');
+        const loanAmountInput = document.getElementById('loanAmount');
+
+        // Função para formatar o número de WhatsApp (DDD) XXXXX-XXXX
+        function formatPhoneNumber(value) {
+            if (!value) return value;
+            const phoneNumber = value.replace(/\D/g, '');
+            let formattedValue = '';
+            if (phoneNumber.length > 0) {
+                formattedValue += `(${phoneNumber.substring(0, 2)}`;
+            }
+            if (phoneNumber.length > 2) {
+                formattedValue += `) ${phoneNumber.substring(2, 7)}`;
+            }
+            if (phoneNumber.length > 7) {
+                formattedValue += `-${phoneNumber.substring(7, 11)}`;
+            }
+            return formattedValue;
+        }
+
+        // Event listener para formatar o WhatsApp enquanto o usuário digita
+        whatsappInput.addEventListener('input', (e) => {
+            e.target.value = formatPhoneNumber(e.target.value);
+        });
+
+        // Função para formatar o valor do empréstimo como moeda
+        function formatCurrency(value) {
+            // Remove tudo que não é dígito (incluindo pontos e vírgulas para evitar problemas de parsing)
+            let numericValue = value.replace(/\D/g, '');
+
+            // Se o valor numérico estiver vazio, retorna uma string vazia para que o placeholder apareça
+            if (numericValue === '') {
+                return '';
+            }
+
+            // Converte para número e divide por 100 para obter o valor em reais (com centavos)
+            // Usamos parseFloat para garantir que a divisão seja feita corretamente
+            let amount = parseFloat(numericValue) / 100;
+
+            // Usa toLocaleString para formatar como moeda BRL (Real Brasileiro)
+            // Isso lida automaticamente com separadores de milhares e decimais
+            return amount.toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
+                minimumFractionDigits: 2, // Garante que sempre haverá 2 casas decimais
+                maximumFractionDigits: 2
+            });
+        }
+
+        // Event listener para formatar o valor do empréstimo enquanto o usuário digita
+        loanAmountInput.addEventListener('input', (e) => {
+            e.target.value = formatCurrency(e.target.value);
+        });
+
+        // Função para exibir o formulário de registro
+        function showRegistrationForm() {
+            registrationForm.classList.remove('hidden');
+            analysisMessage.classList.add('hidden');
+            howItWorksMessage.classList.add('hidden');
+            clarificationMessage.classList.add('hidden');
+            finalizationMessage.classList.add('hidden');
+        }
+
+        // Função para exibir a mensagem de análise
+        function showAnalysisState() {
+            registrationForm.classList.add('hidden');
+            analysisMessage.classList.remove('hidden');
+            howItWorksMessage.classList.add('hidden');
+            clarificationMessage.classList.add('hidden');
+            finalizationMessage.classList.add('hidden');
+        }
+
+        // Função para exibir a mensagem de tira dúvidas
+        function showClarificationState() {
+            registrationForm.classList.add('hidden');
+            analysisMessage.classList.add('hidden');
+            howItWorksMessage.classList.add('hidden');
+            clarificationMessage.classList.remove('hidden');
+            finalizationMessage.classList.add('hidden');
+            // Define o link do botão de tira dúvidas com o número da Wolf Crédito
+            clarificationWhatsappButton.href = `https://wa.me/${WOLF_CREDITO_PHONE_NUMBER}?text=${encodeURIComponent("Olá, preciso tirar dúvidas sobre meu cadastro na Wolf Crédito.")}`;
+        }
+
+        // Função para exibir a mensagem "Como Funciona"
+        function showHowItWorksState() {
+            registrationForm.classList.add('hidden');
+            analysisMessage.classList.add('hidden');
+            howItWorksMessage.classList.remove('hidden');
+            clarificationMessage.classList.add('hidden');
+            finalizationMessage.classList.add('hidden');
+        }
+
+        // Função para exibir a mensagem de finalização
+        function showFinalizationState() {
+            registrationForm.classList.add('hidden');
+            analysisMessage.classList.add('hidden');
+            howItWorksMessage.classList.add('hidden');
+            clarificationMessage.classList.add('hidden');
+            finalizationMessage.classList.remove('hidden');
+            // Define o link do botão de finalização com o número da Wolf Crédito
+            finalizationWhatsappButton.href = `https://wa.me/${WOLF_CREDITO_PHONE_NUMBER}?text=${encodeURIComponent("Olá, meu cadastro na Wolf Crédito foi finalizado e gostaria de prosseguir com a taxa de R$20,00 para liberação do empréstimo.")}`;
+        }
+
+        // Event listener para o botão "Começar meu Cadastro"
+        startRegistrationButton.addEventListener('click', () => {
+            localStorage.setItem('wolfCreditoStatus', JSON.stringify({ state: 'registration_started' }));
+            showRegistrationForm();
+        });
+
+        // Event listener para lidar com o envio do formulário
+        registrationForm.addEventListener('submit', (e) => {
+            e.preventDefault(); // Previne o envio padrão do formulário
+
+            const formData = new FormData(registrationForm);
+            const data = {};
+            for (let [key, value] of formData.entries()) {
+                data[key] = value;
+            }
+
+            // Constrói a mensagem para o WhatsApp do Wolf Crédito
+            const message = `
+            *Nova Ficha de Cadastro - Wolf Crédito*
+
+            *Nome completo:* ${data.fullName}
+            *WhatsApp:* ${data.whatsapp}
+            *Cidade/Estado:* ${data.cityState}
+            *Profissão:* ${data.profession}
+            *Renda mensal:* ${data.monthlyIncome}
+            *Comprova renda?* ${data.proofOfIncome}
+            *Valor desejado:* ${data.loanAmount}
+
+            _Este cliente está aguardando a análise._
+            `;
+
+            // Abre o WhatsApp com a mensagem pré-preenchida
+            const whatsappUrl = `https://wa.me/${WOLF_CREDITO_PHONE_NUMBER}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+
+            // Salva o estado no localStorage
+            localStorage.setItem('wolfCreditoStatus', JSON.stringify({
+                state: 'pending_analysis',
+                timestamp: Date.now()
+            }));
+
+            // Exibe a mensagem de análise e agenda a transição para tira dúvidas
+            showAnalysisState();
+            setTimeout(() => {
+                localStorage.setItem('wolfCreditoStatus', JSON.stringify({ state: 'clarification_pending' }));
+                showClarificationState();
+            }, ANALYSIS_DURATION_MS);
+        });
+
+        // Event listener para o botão "Continuar" na tela de tira dúvidas
+        continueToFinalizationButtonFromClarification.addEventListener('click', () => {
+            localStorage.setItem('wolfCreditoStatus', JSON.stringify({ state: 'finalized' }));
+            showFinalizationState();
+        });
+
+        // Função para verificar o estado ao carregar a página
+        function checkStatusOnLoad() {
+            const savedStatus = localStorage.getItem('wolfCreditoStatus');
+
+            if (savedStatus) {
+                const statusData = JSON.parse(savedStatus);
+                const currentTime = Date.now();
+
+                if (statusData.state === 'pending_analysis') {
+                    const elapsedTime = currentTime - statusData.timestamp;
+                    if (elapsedTime >= ANALYSIS_DURATION_MS) {
+                        // Se o tempo passou, muda para tira dúvidas
+                        localStorage.setItem('wolfCreditoStatus', JSON.stringify({ state: 'clarification_pending' }));
+                        showClarificationState();
+                    } else {
+                        // Se ainda está pendente, exibe análise e agenda o restante do tempo
+                        showAnalysisState();
+                        const remainingTime = ANALYSIS_DURATION_MS - elapsedTime;
+                        setTimeout(() => {
+                            localStorage.setItem('wolfCreditoStatus', JSON.stringify({ state: 'clarification_pending' }));
+                            showClarificationState();
+                        }, remainingTime);
+                    }
+                } else if (statusData.state === 'clarification_pending') {
+                    showClarificationState();
+                } else if (statusData.state === 'registration_started') {
+                    showRegistrationForm();
+                } else if (statusData.state === 'finalized') {
+                    showFinalizationState();
+                }
+            } else {
+                // Se não há status salvo, exibe a tela "Como Funciona" primeiro
+                showHowItWorksState();
+            }
+        }
+
+        // Chama a função para verificar o status ao carregar a página
+        window.onload = function () {
+            checkStatusOnLoad();
+        };
+    </script>
+</body>
+</html>
